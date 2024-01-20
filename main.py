@@ -22,7 +22,7 @@ while running:
 
     screen.blit(bg_image, (0, 0))
 
-    player.move(width, height)
+    player.control(width, height)
     player.draw(screen)
 
     pygame.display.flip()
