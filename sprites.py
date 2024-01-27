@@ -11,6 +11,7 @@ class Sprite:
         self.shot_sound = pygame.mixer.Sound('shot.mp3')
         self.shot_sound.set_volume(0.2)
         self.reloading = False
+
     def draw(self, scr):
         scr.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -24,8 +25,18 @@ class Sprite:
             self.rect.y -= self.step
         if keys[pygame.K_DOWN] and self.rect.y < win_height - 64:
             self.rect.y += self.step
-        if keys[pygame.K_SPACE]:
-            if not self.reloading:
-                self.shot_sound.play()
-                self.reloading = True
 
+    def shot(self):
+        if not self.reloading:
+            self.shot_sound.play()
+            b = Bullet(self.rect.centerx, self.rect.centery)
+        return b
+
+
+class Bullet:
+    def __init__(self, x, y):
+        self.rect = pygame.Rect(x, y, 7, 20)
+
+    def draw(self, wnd):
+        pygame.draw.rect(wnd, 'yellow', self.rect, 0, 10)
+        self.rect.y -= 10
