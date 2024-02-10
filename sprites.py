@@ -33,6 +33,37 @@ class Sprite:
         return b
 
 
+class Enemy:
+    def __init__(self, x, y, filename):
+        self.x = x
+        self.y = y
+        self.rect = pygame.Rect(x, y, 64, 64)
+        self.image = pygame.image.load(filename)
+        self.hspeed = 0
+        self.vspeed = 5
+
+    def draw(self, scr):
+        scr.blit(self.image, (self.rect.x, self.rect.y))
+
+    def move(self, player):
+        if player.rect.y - self.rect.y < 200:
+            self.vspeed = 10
+            self.hspeed = 5
+
+        if self.rect.x > player.rect.x:
+            self.rect.x -= self.hspeed
+        elif self.rect.x < player.rect.x:
+            self.rect.x += self.hspeed
+
+        self.rect.y += self.vspeed
+
+    def isAway(self, height):
+        if self.rect.y > height:
+            return True
+        else:
+            return False
+
+
 class Bullet:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 7, 20)
