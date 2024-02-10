@@ -18,6 +18,7 @@ bg_image = pygame.transform.scale(bg_image, (width, height))
 delay = 60
 enemies = []
 bullets = []
+enemy_bullets = []
 
 while running:
 
@@ -34,11 +35,17 @@ while running:
         b.draw(screen)
         if b.rect.y < 0:
             bullets.remove(b)
+    for b in enemy_bullets:
+        b.draw(screen)
+        if b.rect.y < 0:
+            bullets.remove(b)
+        if b.rect.colliderect(player.rect):
+            print(1)
 
     if delay > 0:
         delay -= 1
     if delay == 0:
-        enemies.append(Enemy(random.randint(0, width - 64), -64, 'player-img.png'))
+        enemies.append(RangeEnemy(random.randint(0, width - 64), -64, 'player-img.png'))
         delay = 60
 
     player.control(width, height)
@@ -47,8 +54,14 @@ while running:
     for enemy in enemies:
         enemy.move(player)
         enemy.draw(screen)
+        if enemy.shot():
+            enemy_bullets.append(EnemyBullet(enemy.rect.centerx, enemy.rect.centery))
         if enemy.isAway(height):
             enemies.remove(enemy)
+        for b in bullets:
+            if b.rect.colliderect(enemy.rect):
+                bullets.remove(b)
+                enemies.remove(enemy)
 
     pygame.display.flip()
     clock.tick(60)

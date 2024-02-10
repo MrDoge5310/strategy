@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 
@@ -64,6 +66,34 @@ class Enemy:
             return False
 
 
+class RangeEnemy(Enemy):
+    def __init__(self, x, y, filename):
+        super().__init__(x, y, filename)
+        self.position = random.randint(0, 201)
+        self.canShoot = False
+        self.reload_time = 120
+
+    def move(self, player):
+        if self.rect.y < self.position:
+            self.rect.y += 3
+
+        if self.rect.x > player.rect.x:
+            self.rect.x -= 2
+        elif self.rect.x < player.rect.x:
+            self.rect.x += 2
+
+    def shot(self):
+        if self.rect.y >= self.position:
+            self.canShoot = True
+
+        if self.canShoot:
+            if self.reload_time > 0:
+                self.reload_time -= 1
+            if self.reload_time == 0:
+                self.reload_time = 60
+                return True
+
+
 class Bullet:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 7, 20)
@@ -71,3 +101,12 @@ class Bullet:
     def draw(self, wnd):
         pygame.draw.rect(wnd, 'yellow', self.rect, 0, 10)
         self.rect.y -= 10
+
+
+class EnemyBullet(Bullet):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+
+    def draw(self, wnd):
+        pygame.draw.rect(wnd, 'red', self.rect, 0, 10)
+        self.rect.y += 10
