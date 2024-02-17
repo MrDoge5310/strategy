@@ -1,5 +1,4 @@
 import random
-
 import pygame
 
 
@@ -43,21 +42,23 @@ class Enemy:
         self.image = pygame.image.load(filename)
         self.hspeed = 0
         self.vspeed = 5
+        self.active = False
 
     def draw(self, scr):
         scr.blit(self.image, (self.rect.x, self.rect.y))
 
     def move(self, player):
-        if player.rect.y - self.rect.y < 200:
-            self.vspeed = 10
-            self.hspeed = 5
+        if self.active:
+            if player.rect.y - self.rect.y < 200:
+                self.vspeed = 10
+                self.hspeed = 5
 
-        if self.rect.x > player.rect.x:
-            self.rect.x -= self.hspeed
-        elif self.rect.x < player.rect.x:
-            self.rect.x += self.hspeed
+            if self.rect.x > player.rect.x:
+                self.rect.x -= self.hspeed
+            elif self.rect.x < player.rect.x:
+                self.rect.x += self.hspeed
 
-        self.rect.y += self.vspeed
+            self.rect.y += self.vspeed
 
     def isAway(self, height):
         if self.rect.y > height:
@@ -74,24 +75,26 @@ class RangeEnemy(Enemy):
         self.reload_time = 120
 
     def move(self, player):
-        if self.rect.y < self.position:
-            self.rect.y += 3
+        if self.active:
+            if self.rect.y < self.position:
+                self.rect.y += 3
 
-        if self.rect.x > player.rect.x:
-            self.rect.x -= 2
-        elif self.rect.x < player.rect.x:
-            self.rect.x += 2
+            if self.rect.x > player.rect.x:
+                self.rect.x -= 2
+            elif self.rect.x < player.rect.x:
+                self.rect.x += 2
 
     def shot(self):
-        if self.rect.y >= self.position:
-            self.canShoot = True
+        if self.active:
+            if self.rect.y >= self.position:
+                self.canShoot = True
 
-        if self.canShoot:
-            if self.reload_time > 0:
-                self.reload_time -= 1
-            if self.reload_time == 0:
-                self.reload_time = 60
-                return True
+            if self.canShoot:
+                if self.reload_time > 0:
+                    self.reload_time -= 1
+                if self.reload_time == 0:
+                    self.reload_time = 60
+                    return True
 
 
 class Bullet:

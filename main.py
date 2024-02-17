@@ -1,6 +1,7 @@
 import random
 import pygame.transform
 
+from levels import *
 from sprites import *
 pygame.init()
 
@@ -16,7 +17,7 @@ bg_image = pygame.image.load('images.png')
 bg_image = pygame.transform.scale(bg_image, (width, height))
 
 delay = 60
-enemies = []
+enemies = level1()
 bullets = []
 enemy_bullets = []
 
@@ -45,7 +46,8 @@ while running:
     if delay > 0:
         delay -= 1
     if delay == 0:
-        enemies.append(RangeEnemy(random.randint(0, width - 64), -64, 'player-img.png'))
+        for enemy in enemies:
+            enemy.active = True
         delay = 60
 
     player.control(width, height)
@@ -54,8 +56,8 @@ while running:
     for enemy in enemies:
         enemy.move(player)
         enemy.draw(screen)
-        if enemy.shot():
-            enemy_bullets.append(EnemyBullet(enemy.rect.centerx, enemy.rect.centery))
+        # if enemy.shot():
+        #     enemy_bullets.append(EnemyBullet(enemy.rect.centerx, enemy.rect.centery))
         if enemy.isAway(height):
             enemies.remove(enemy)
         for b in bullets:
