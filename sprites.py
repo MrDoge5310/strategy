@@ -47,6 +47,9 @@ class Enemy:
     def draw(self, scr):
         scr.blit(self.image, (self.rect.x, self.rect.y))
 
+    def shot(self):
+        pass
+
     def move(self, player):
         if self.active:
             if player.rect.y - self.rect.y < 200:

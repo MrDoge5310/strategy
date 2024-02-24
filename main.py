@@ -16,8 +16,11 @@ player = Sprite(width/2 - 32, height - 64, "player-img.png")
 bg_image = pygame.image.load('images.png')
 bg_image = pygame.transform.scale(bg_image, (width, height))
 
+levels = [level1(), level2()]
+
 delay = 60
-enemies = level1()
+enemies = levels[0]
+lvl = 0
 bullets = []
 enemy_bullets = []
 
@@ -43,6 +46,10 @@ while running:
         if b.rect.colliderect(player.rect):
             print(1)
 
+    if len(enemies) == 0:
+        lvl += 1
+        enemies = levels[lvl]
+
     if delay > 0:
         delay -= 1
     if delay == 0:
@@ -56,8 +63,8 @@ while running:
     for enemy in enemies:
         enemy.move(player)
         enemy.draw(screen)
-        # if enemy.shot():
-        #     enemy_bullets.append(EnemyBullet(enemy.rect.centerx, enemy.rect.centery))
+        if enemy.shot():
+            enemy_bullets.append(EnemyBullet(enemy.rect.centerx, enemy.rect.centery))
         if enemy.isAway(height):
             enemies.remove(enemy)
         for b in bullets:
