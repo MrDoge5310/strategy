@@ -31,7 +31,7 @@ class Sprite:
         if not self.reloading:
             self.shot_sound.play()
             b = Bullet(self.rect.centerx, self.rect.centery)
-        return b
+            return b
 
 
 class Enemy:
@@ -76,16 +76,22 @@ class RangeEnemy(Enemy):
         self.position = random.randint(0, 201)
         self.canShoot = False
         self.reload_time = 120
+        self.direction = random.choice(['left', 'right'])
 
     def move(self, player):
         if self.active:
             if self.rect.y < self.position:
                 self.rect.y += 3
 
-            if self.rect.x > player.rect.x:
+            if self.direction == 'left':
                 self.rect.x -= 2
-            elif self.rect.x < player.rect.x:
+                if self.rect.x <= 0:
+                    self.direction = 'right'
+
+            if self.direction == 'right':
                 self.rect.x += 2
+                if self.rect.x + 64 >= 700:
+                    self.direction = 'left'
 
     def shot(self):
         if self.active:

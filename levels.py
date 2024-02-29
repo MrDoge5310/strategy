@@ -32,3 +32,15 @@ def level2():
         enemies.append(RangeEnemy(random.randint(0, 700 - 64), -64, img))
         n -= 1
     return enemies
+
+
+def level3():
+    enemies = []
+    img = range_enemy_img[1]
+
+    i = 4
+    while i > 0:
+        enemies.append(RangeEnemy(random.randint(0, 700 - 64), -64, img))
+
+        i -= 1
+    return enemies
