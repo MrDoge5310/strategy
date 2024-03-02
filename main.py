@@ -18,6 +18,12 @@ bg_image = pygame.transform.scale(bg_image, (width, height))
 
 levels = [level1(), level2(), level3()]
 
+healthbar = []
+
+i = 10
+while i > 0:
+    healthbar.append(pygame.Rect(520 + 15*i, 630, 10, 30))
+    i -= 1
 
 delay = 60
 enemies = levels[0]
@@ -42,10 +48,12 @@ while running:
             bullets.remove(b)
     for b in enemy_bullets:
         b.draw(screen)
-        if b.rect.y < 0:
-            bullets.remove(b)
-        if b.rect.colliderect(player.rect):
-            print(1)
+        if b.rect.y > height:
+            enemy_bullets.remove(b)
+        if b.checkHit(player):
+            player.health -= 1
+            enemy_bullets.remove(b)
+            print(player.health)
 
     if len(enemies) == 0:
         lvl += 1
@@ -64,6 +72,9 @@ while running:
     for enemy in enemies:
         enemy.move(player)
         enemy.draw(screen)
+        if enemy.rect.colliderect(player.rect):
+            player.health -= 1
+            enemies.remove(enemy)
         if enemy.shot():
             enemy_bullets.append(EnemyBullet(enemy.rect.centerx, enemy.rect.centery))
         if enemy.isAway(height):
@@ -72,6 +83,14 @@ while running:
             if b.rect.colliderect(enemy.rect):
                 bullets.remove(b)
                 enemies.remove(enemy)
+
+    i = 0
+    while i < player.health:
+        pygame.draw.rect(screen, 'red', healthbar[i])
+        i += 1
+
+    if player.health <= 0:
+        running = False
 
     pygame.display.flip()
     clock.tick(60)

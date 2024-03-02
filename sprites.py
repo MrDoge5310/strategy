@@ -12,6 +12,7 @@ class Sprite:
         self.shot_sound = pygame.mixer.Sound('shot.mp3')
         self.shot_sound.set_volume(0.2)
         self.reloading = False
+        self.health = 10
 
     def draw(self, scr):
         scr.blit(self.image, (self.rect.x, self.rect.y))
@@ -122,3 +123,7 @@ class EnemyBullet(Bullet):
     def draw(self, wnd):
         pygame.draw.rect(wnd, 'red', self.rect, 0, 10)
         self.rect.y += 10
+
+    def checkHit(self, player):
+        if self.rect.colliderect(player.rect):
+            return True
