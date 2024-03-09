@@ -107,6 +107,36 @@ class RangeEnemy(Enemy):
                     return True
 
 
+class EnemyBomber(Enemy):
+    def __init__(self, x, y, filename):
+        super().__init__(x, y, filename)
+        self.reload_time = 20
+
+    def move(self, player):
+        if self.rect.y < 700:
+            self.rect.y += 2
+        self.rect.x += 2
+
+    def shot(self):
+        if self.reload_time > 0:
+            self.reload_time -= 1
+            if self.reload_time == 0:
+                self.reload_time = 20
+                return True
+
+
+class Boss:
+    def __init__(self, filename):
+        self.rect = pygame.Rect(400, 100, 64, 64)
+        self.health = 100
+
+    def stage1(self):
+        pass
+
+    def stage2(self):
+        pass
+
+
 class Bullet:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 7, 20)
