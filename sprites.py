@@ -125,18 +125,6 @@ class EnemyBomber(Enemy):
                 return True
 
 
-class Boss:
-    def __init__(self, filename):
-        self.rect = pygame.Rect(400, 100, 64, 64)
-        self.health = 100
-
-    def stage1(self):
-        pass
-
-    def stage2(self):
-        pass
-
-
 class Bullet:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 7, 20)
