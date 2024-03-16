@@ -1,6 +1,6 @@
 import random
 import pygame.transform
-
+from boss import *
 from levels import *
 from sprites import *
 pygame.init()
@@ -81,8 +81,12 @@ while running:
             enemies.remove(enemy)
         for b in bullets:
             if b.rect.colliderect(enemy.rect):
-                bullets.remove(b)
-                enemies.remove(enemy)
+                if  not isinstance(enemy, Boss):
+                    bullets.remove(b)
+                    enemies.remove(enemy)
+                else:
+                    bullets.remove(b)
+                    enemy.health -= 1
 
     i = 0
     while i < player.health:
