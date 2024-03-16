@@ -1,3 +1,5 @@
+import random
+from boss import *
 from sprites import *
 
 
@@ -43,4 +45,23 @@ def level3():
         enemies.append(RangeEnemy(random.randint(0, 700 - 64), -64, img))
 
         i -= 1
+    return enemies
+
+def level4():
+    enemies = []
+    img = range_enemy_img[1]
+
+    i = 4
+    while i > 0:
+        enemies.append(EnemyBomber(random.randint(0, 700 - 64), -64, img))
+
+        i -= 1
+    return enemies
+
+
+def boss_lvl():
+    enemies = []
+    img = 'boss.png'
+
+    enemies.append(Boss(img))
     return enemies

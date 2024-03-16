@@ -16,7 +16,7 @@ player = Sprite(width/2 - 32, height - 64, "player-img.png")
 bg_image = pygame.image.load('images.png')
 bg_image = pygame.transform.scale(bg_image, (width, height))
 
-levels = [level1(), level2(), level3(), level4()]
+levels = [boss_lvl()]
 
 healthbar = []
 
